@@ -1,0 +1,60 @@
+(function(mainStr, main) {
+
+
+    class Animated {
+        constructor() {
+            main = this;
+
+            console.dir(this);
+            this.settings = Object.assign({}, {
+
+            });
+            this.state = Object.assign({}, {
+            });
+
+            this.isProxy = Symbol("isProxy");
+            this.GUI = {};
+            try {
+                this.onLoad();
+            } catch (e) {
+                console.error(e);
+                console.trace(e.stack);
+            }
+        }
+
+        onLoad() {
+
+
+            this.defines();
+            localStorage.kro_setngss_json ? Object.assign(this.settings, JSON.parse(localStorage.kro_setngss_json)) :
+            localStorage.kro_setngss_json = JSON.stringify(this.settings);
+            this.createListeners();
+            this.hooking();
+
+        }
+
+
+
+        defines() {
+            Object.defineProperties(Object.prototype, {
+
+                shaderId: { // Animated billboards
+                    enumerable: false,
+                    get() {
+                        if (this.src && this.src.startsWith("pubs/")) return main.settings.animatedBillboards ? 1 : this.rshaderId;
+                        else return this.rshaderId
+                    },
+                    set(v) {
+                        this.rshaderId = v
+                    }
+                },
+
+            });
+        }
+
+
+};
+
+window[mainStr] = new Animated ();
+
+})([...Array(8)].map(_ => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' [~~(Math.random() * 52)]).join(''));
